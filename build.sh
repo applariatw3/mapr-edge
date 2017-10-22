@@ -6,9 +6,23 @@ exec > $logfile 2>&1
 set -x
 
 #set environment
+SPRVD_CONF=/etc/supervisor/conf.d/maprsvc.conf
+MAPR_START_ENV=${MAPR_CONTAINER_DIR}/start-env.sh
+
+#MAPR JDBC
+MAPRJDBC_HOME="/opt/mapr"
+MAPRJDBC_VERSION="1.5.3.1006"
+MAPRJDBC_DL_URL="http://package.mapr.com/tools/MapR-JDBC/MapR_Drill/MapRDrill_jdbc_v${MAPRJDBC_VERSION}/DrillJDBC41.zip"
+
+#Drill
+DRILL_HOME="/opt/drill"
+DRILL_VERSION="1.10.0"
+DRILL_DL_URL="http://www.apache.org/dyn/closer.lua?action=download&filename=drill/drill-${DRILL_VERSION}/apache-drill-${DRILL_VERSION}.tar.gz"
+
+#Zeppelin
 ZEPPELIN_HOME="/opt/zeppelin"
-VERSION=0.7.3
-ZEP_DL_URL="http://archive.apache.org/dist/zeppelin/zeppelin-${ZEPPELIN_VER}/zeppelin-${ZEPPELIN_VER}-bin-all.tgz"
+ZEP_VERSION="0.7.3"
+ZEP_DL_URL="http://archive.apache.org/dist/zeppelin/zeppelin-${ZEP_VERSION}/zeppelin-${ZEP_VERSION}-bin-all.tgz"
 
 
 #The following mapr packages are installed by default
@@ -17,10 +31,10 @@ ZEP_DL_URL="http://archive.apache.org/dist/zeppelin/zeppelin-${ZEPPELIN_VER}/zep
 
 #Install zeppelin
 mkdir -p $ZEPPELIN_HOME
-curl ${DIST_MIRROR}/zeppelin-${VERSION}/zeppelin-${VERSION}-bin-all.tgz | tar xvz -C ${ZEPPELIN_HOME}
-mv ${ZEPPELIN_HOME}/zeppelin-${VERSION}-bin-all/* ${ZEPPELIN_HOME}
+curl ${ZEP_DL_URL} | tar xvz -C ${ZEPPELIN_HOME}
+mv ${ZEPPELIN_HOME}/zeppelin-${ZEP_VERSION}-bin-all/* ${ZEPPELIN_HOME}
 rm -rf ${ZEPPELIN_HOME}/zeppelin-${VERSION}-bin-all
-
+rm -rf *.tgz
 
 exit 0
 

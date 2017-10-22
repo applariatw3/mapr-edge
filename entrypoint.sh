@@ -196,6 +196,10 @@ fi
 #	service mapr-posix-client-basic start
 #fi
 
+#create log directories for supervisor
+mkdir -p /var/log/supervisor
+chmod 777 /var/log/supervisor
+
 if [ $# -eq 0 ]; then
 	exec /usr/sbin/sshd -D
 elif [ "$1" = "/usr/sbin/sshd" ]; then
