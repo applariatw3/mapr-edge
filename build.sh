@@ -31,12 +31,14 @@ ZEP_DL_URL="http://archive.apache.org/dist/zeppelin/zeppelin-${ZEP_VERSION}/zepp
 cd /tmp
 
 #Install MAPR JDBC
+echo "Installing MAPR JDBC"
 mkdir -p $MAPRJDBC_HOME
-wget -q $MAPJDBC_DL_URL
+wget -q $MAPRJDBC_DL_URL
 unzip DrillJDBC41.zip -d $MAPRJDBC_HOME
 rm -f DrillJDBC41.zip
 
 #Install Drill
+echo "Installing Drill"
 mkdir -p $DRILL_HOME
 curl -sS ${DRILL_DL_URL} | tar xvz -C ${DRILL_HOME}
 mv ${DRILL_HOME}/apache-drill-${DRILL_VERSION}/* ${DRILL_HOME}
@@ -44,17 +46,20 @@ rm -rf ${DRILL_HOME}/apache-drill-${DRILL_VERSION}
 rm -rf *.tgz
 
 #Install zeppelin
+echo "Installing Zeppelin"
 mkdir -p $ZEPPELIN_HOME
 curl -sS ${ZEP_DL_URL} | tar xvz -C ${ZEPPELIN_HOME}
 mv ${ZEPPELIN_HOME}/zeppelin-${ZEP_VERSION}-bin-all/* ${ZEPPELIN_HOME}
 rm -rf ${ZEPPELIN_HOME}/zeppelin-${ZEP_VERSION}-bin-all
 rm -rf *.tgz
 
-if [ -f $ZEPPELIN_HOME/bin/zepplin.sh ]; then
+
+echo "Adding Zeppelin to start list"
+if [ -f "${ZEPPELIN_HOME}/bin/zepplin.sh" ]; then
 	cat >> $SPRVD_CONF << EOC
 
 [program:zeppelin]
-command=$ZEPPELIN_HOME/bin/zeppelin.sh
+command=${ZEPPELIN_HOME}/bin/zeppelin.sh
 autorestart=true
 EOC
 

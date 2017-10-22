@@ -1,9 +1,14 @@
 #!/bin/sh
 #mapr client entrypoint script
+#Output info from the build process
+echo "*****"
 echo "Output from build process"
+echo "*****"
 cat /tmp/build.log
+echo
 echo "End of build log"
-
+echo "*****"
+echo
 echo "Starting MAPR Edge Node as ${POD_NAME} from /entrypoint.sh"
 
 set -e
