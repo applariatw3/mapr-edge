@@ -8,7 +8,7 @@ set -x
 #set environment
 ZEPPELIN_HOME="/opt/zeppelin"
 VERSION=0.7.3
-ZEP_DL_URL="http://www.apache.org/dyn/closer.cgi/zeppelin/zeppelin-${ZEPPELIN_VER}/zeppelin-${ZEPPELIN_VER}-bin-all.tgz"
+ZEP_DL_URL="http://archive.apache.org/dist/zeppelin/zeppelin-${ZEPPELIN_VER}/zeppelin-${ZEPPELIN_VER}-bin-all.tgz"
 
 
 #The following mapr packages are installed by default
