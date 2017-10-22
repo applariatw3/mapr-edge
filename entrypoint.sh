@@ -193,7 +193,7 @@ if [ -n "$MAPR_MOUNT_PATH" -a -f "$MAPR_FUSE_FILE" ]; then
 	sed -i "s|^fuse.mount.point.*$|fuse.mount.point=$MAPR_MOUNT_PATH|g" \
 		$MAPR_FUSE_FILE || echo "Could not set FUSE mount path"
 	mkdir -p -m 755 "$MAPR_MOUNT_PATH"
-	service mapr-posix-client-container start
+	service mapr-posix-client-basic start
 fi
 
 if [ $# -eq 0 ]; then
@@ -202,6 +202,5 @@ elif [ "$1" = "/usr/sbin/sshd" ]; then
 	exec "$@"
 else
 	echo "Starting edge node with command: $@"
-	service sshd start
-	exec "sudo -E -H -n -u $MAPR_CLIENT_USER -g $MAPR_CLIENT_GROUP $@"
+	exec "$@"
 fi
