@@ -50,7 +50,8 @@ mv ${ZEPPELIN_HOME}/zeppelin-${ZEP_VERSION}-bin-all/* ${ZEPPELIN_HOME}
 rm -rf ${ZEPPELIN_HOME}/zeppelin-${ZEP_VERSION}-bin-all
 rm -rf *.tgz
 
-cat >> $SPRVD_CONF << EOC
+if [ -f $ZEPPELIN_HOME/bin/zepplin.sh ]; then
+	cat >> $SPRVD_CONF << EOC
 
 [program:zeppelin]
 command=$ZEPPELIN_HOME/bin/zeppelin.sh
