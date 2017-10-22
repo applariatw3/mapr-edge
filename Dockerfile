@@ -17,4 +17,4 @@ EXPOSE 22
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-CMD ["/usr/bin/supervisord","-n","-c","/etc/supervisor/supervisord.conf"]
+CMD ["/opt/mapr/docker/start-mapr.sh"]
