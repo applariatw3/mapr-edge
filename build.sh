@@ -55,6 +55,10 @@ rm -rf *.tgz
 
 
 echo "Adding Zeppelin to start list"
+
+ls ${ZEPPELIN_HOME}/bin
+
+
 if [ -f "${ZEPPELIN_HOME}/bin/zepplin.sh" ]; then
 	cat >> $SPRVD_CONF << EOC
 
