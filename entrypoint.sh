@@ -74,8 +74,10 @@ fi
 #configure sshd
 if [ ! -d /var/run/sshd ]; then
 	mkdir /var/run/sshd
+	echo "Setting root password"
 	echo "root:$MAPR_ADMIN_PASSWORD" | chpasswd
 
+	echo "Configuring SSHD settings"
 	rm -f /run/nologin
 	if [ -f /etc/ssh/sshd_config ]; then
 		sed -ri 's/^PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config
