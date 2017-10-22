@@ -31,11 +31,11 @@ ZEP_DL_URL="http://archive.apache.org/dist/zeppelin/zeppelin-${ZEP_VERSION}/zepp
 cd /tmp
 
 #Install MAPR JDBC
-echo "Installing MAPR JDBC"
-mkdir -p $MAPRJDBC_HOME
-wget -q $MAPRJDBC_DL_URL
-unzip DrillJDBC41.zip -d $MAPRJDBC_HOME
-rm -f DrillJDBC41.zip
+#echo "Installing MAPR JDBC"
+#mkdir -p $MAPRJDBC_HOME
+#wget -q $MAPRJDBC_DL_URL
+#unzip DrillJDBC41.zip -d $MAPRJDBC_HOME
+#rm -f DrillJDBC41.zip
 
 #Install Drill
 echo "Installing Drill"
@@ -55,6 +55,8 @@ rm -rf *.tgz
 
 
 echo "Adding Zeppelin to start list"
+
+cat $SPRVD_CONF
 
 #if [ -f "${ZEPPELIN_HOME}/bin/zepplin.sh" ]; then
 cat >> $SPRVD_CONF << EOC
