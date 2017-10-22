@@ -1,5 +1,5 @@
-FROM applariat/mapr-core:5.2.2_3.0.1
-#Starting from mapr core image
+FROM applariat/mapr-edge:5.2.2_3.0.1
+#Starting from mapr edge image
 
 ARG artifact_root="."
 #Additional build args from AppLariat component configuration will be inserted dynamically
