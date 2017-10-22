@@ -56,19 +56,16 @@ rm -rf *.tgz
 
 echo "Adding Zeppelin to start list"
 
-ls ${ZEPPELIN_HOME}/bin
-
-
-if [ -f "${ZEPPELIN_HOME}/bin/zepplin.sh" ]; then
-	cat >> $SPRVD_CONF << EOC
+#if [ -f "${ZEPPELIN_HOME}/bin/zepplin.sh" ]; then
+cat >> $SPRVD_CONF << EOC
 
 [program:zeppelin]
 command=${ZEPPELIN_HOME}/bin/zeppelin.sh
 autorestart=true
 EOC
 
-	echo "Added Zeppelin to start list"
-fi
+echo "Added Zeppelin to start list"
+#fi
 
 exit 0
 

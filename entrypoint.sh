@@ -69,6 +69,7 @@ if id $MAPR_ADMIN >/dev/null 2>&1; then
 	echo "Mapr admin user already exists"
 else
 	$MAPR_CONTAINER_DIR/mapr-create-user.sh $MAPR_ADMIN $MAPR_ADMIN_UID $MAPR_ADMIN_GROUP $MAPR_ADMIN_GID $MAPR_ADMIN_PASSWORD
+	echo "Completed creating user $MAPR_ADMIN"
 fi
 
 #configure sshd
