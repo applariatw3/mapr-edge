@@ -38,12 +38,13 @@ cd /tmp
 #rm -f DrillJDBC41.zip
 
 #Install Drill
-echo "Installing Drill"
-mkdir -p $DRILL_HOME
-curl -sS ${DRILL_DL_URL} | tar xvz -C ${DRILL_HOME}
-mv ${DRILL_HOME}/apache-drill-${DRILL_VERSION}/* ${DRILL_HOME}
-rm -rf ${DRILL_HOME}/apache-drill-${DRILL_VERSION}
-rm -rf *.tgz
+#echo "Installing Drill"
+mkdir -p $DRILL_HOME/jars/jdbc-driver
+mv /code/drill-jdbc-all-1.10.0.jar $DRILL_HOME/jars/jdbc-driver
+#curl -sS ${DRILL_DL_URL} | tar xvz -C ${DRILL_HOME}
+#mv ${DRILL_HOME}/apache-drill-${DRILL_VERSION}/* ${DRILL_HOME}
+#rm -rf ${DRILL_HOME}/apache-drill-${DRILL_VERSION}
+#rm -rf *.tgz
 
 #Install zeppelin
 echo "Installing Zeppelin"
@@ -53,6 +54,8 @@ mv ${ZEPPELIN_HOME}/zeppelin-${ZEP_VERSION}-bin-all/* ${ZEPPELIN_HOME}
 rm -rf ${ZEPPELIN_HOME}/zeppelin-${ZEP_VERSION}-bin-all
 rm -rf *.tgz
 
+mv /code/zeppelin-jdbc-0.7.3.jar ${ZEPPELIN_HOME}/interpreter/jdbc/
+cp $DRILL_HOME/jars/jdbc-driver/*.jar ${ZEPPELIN_HOME}/interpreter/jdbc/
 
 echo "Adding Zeppelin to start list"
 
@@ -68,6 +71,8 @@ EOC
 
 echo "Added Zeppelin to start list"
 #fi
+
+cat $SPRVD_CONF
 
 exit 0
 
