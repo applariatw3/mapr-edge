@@ -17,4 +17,4 @@ EXPOSE 22
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-CMD ["/usr/bin/supervisord","-c","/etc/supervisor/conf.d/supervisord.conf"]
+CMD ["/usr/bin/supervisord","-n","-c","/etc/supervisor/supervisord.conf"]
