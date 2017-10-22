@@ -59,7 +59,7 @@ if [ -n "$MAPR_TICKETFILE_LOCATION" ]; then
 fi
 echo "export PATH=\"\$JAVA_HOME:\$PATH:\$MAPR_HOME/bin\"" >> $MAPR_ENV_FILE
 
-Create the mapr admin user
+#Create the mapr admin user
 if id $MAPR_ADMIN >/dev/null 2>&1; then
 	echo "Mapr admin user already exists"
 else
