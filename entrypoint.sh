@@ -27,7 +27,7 @@ MAPR_ADMIN_PASSWORD=${MAPR_ADMIN_PASSWORD:-mapr522301}
 
 #export path
 export PATH=$JAVA_HOME/bin:$MAPR_HOME/bin:$PATH
-export CLASSPATH=$CLASSPATH
+export CLASSPATH=$CLASSPATH:${MAPR_HOME}/lib/jdbc:/opt/drill/jars/jdbc/jdbc-driver/
 #export MAPR_CLASSPATH=$MAPR_CLASSPATH
 
 #internal environment
