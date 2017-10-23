@@ -63,7 +63,7 @@ echo "Adding Zeppelin to start list"
 
 cat $SPRVD_CONF
 
-#if [ -f "${ZEPPELIN_HOME}/bin/zepplin.sh" ]; then
+#if [ -f ${ZEPPELIN_HOME}/bin/zepplin.sh ]; then
 cat >> $SPRVD_CONF << EOC
 
 [program:zeppelin]

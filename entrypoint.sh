@@ -29,6 +29,43 @@ MAPR_ADMIN_GROUP=${MAPR_ADMIN_GROUP:-mapr}
 MAPR_ADMIN_GID=${MAPR_ADMIN_GID:-5000}
 MAPR_ADMIN_PASSWORD=${MAPR_ADMIN_PASSWORD:-mapr522301}
 
+#Used for APL Notifications
+APL_API=${APL_API:-http://api6.mapr.applariat.io/v1}
+APL_API_KEY=${APL_API_KEY:-2c7b31306119fc883c842b8bad33945b5845e41660cdfd8c82cd4a1870347a97}
+NOTIFY_APL=${NOTIFY_APL:-1}
+auth="Authorization: ApiKey $APL_API_KEY"
+api_get="curl -sS -H \"$auth\" -H \"Content-Type: application/json\" -X GET "
+api_post="curl -sS -H \"$auth\" -H \"Content-Type: application/json\" -X POST "
+
+APL_DEPLOYMENT_ID=$($api_get $APL_API/deployments?name=$NAMESPACE |jq -r '.data[0].id')
+
+notify_apl() {
+	cat > /tmp/apl-event << EOC
+{"data": {
+		"event_type": "update_object",
+		"force_save": true,
+		"object_type": "deployment",
+		"update_data": {
+			"status": {
+				"state": "deployed",
+				"namespace": "$NAMESPACE",
+				"description": "$1"
+			}
+		},
+		"object_name": "$APL_DEPLOYMENT_ID",
+		"source": "propeller",
+		"active": true,
+		"message": "$1"
+	}
+}
+EOC
+
+	response=$($api_post $APL_API/events --data-binary /tmp/apl-event | jq '.')
+
+	echo "Applariat API response: $response"
+}
+
+[ NOTIFY_APL -eq 1 ] && notify_apl "Starting configuration of MAPR edge node: ${POD_NAME}"
 
 #export path
 export PATH=$JAVA_HOME/bin:$MAPR_HOME/bin:$PATH
@@ -132,13 +169,15 @@ fi
 
 #Set variables MAPR_HOME, JAVA_HOME, [ MAPR_SUBNETS (if set)] in conf/env.sh
 env_file="$MAPR_HOME/conf/env.sh"
-sed -i "s:^#export JAVA_HOME.*:export JAVA_HOME=${JAVA_HOME}:" "$env_file" || \
-	echo "Could not edit JAVA_HOME in $env_file"
-sed -i "s:^#export MAPR_HOME.*:export MAPR_HOME=${MAPR_HOME}:" "$env_file" || \
-	echo "Could not edit MAPR_HOME in $env_file"
-if [ -n "$MAPR_SUBNETS" ]; then
-	sed -i "s:^#export MAPR_SUBNETS.*:export MAPR_SUBNETS=${MAPR_SUBNETS}:" "$env_file" || \
-		echo "Could not edit MAPR_SUBNETS in $env_file"
+if [ -f $env_file ]; then
+	sed -i "s:^#export JAVA_HOME.*:export JAVA_HOME=${JAVA_HOME}:" "$env_file" || \
+		echo "Could not edit JAVA_HOME in $env_file"
+	sed -i "s:^#export MAPR_HOME.*:export MAPR_HOME=${MAPR_HOME}:" "$env_file" || \
+		echo "Could not edit MAPR_HOME in $env_file"
+	if [ -n "$MAPR_SUBNETS" ]; then
+		sed -i "s:^#export MAPR_SUBNETS.*:export MAPR_SUBNETS=${MAPR_SUBNETS}:" "$env_file" || \
+			echo "Could not edit MAPR_SUBNETS in $env_file"
+	fi
 fi
 
 #Confirm cluster services are ready
@@ -167,6 +206,8 @@ if [ $check_cldb -eq 1 ]; then
 fi
 
 #configure mapr services
+[ NOTIFY_APL -eq 1 ] && notify_apl "Running configure.sh on MAPR edge node: ${POD_NAME}"
+
 if [ -f "$MAPR_CLUSTER_CONF" ]; then
 	args=-R
 	args="$args -v"
@@ -211,6 +252,8 @@ mkdir -p /var/log/supervisor
 chmod 777 /var/log/supervisor
 
 sleep 10
+
+[ NOTIFY_APL -eq 1 ] && notify_apl "Starting services on MAPR edge node: ${POD_NAME}"
 
 if [ $# -eq 0 ]; then
 	exec /usr/sbin/sshd -D
