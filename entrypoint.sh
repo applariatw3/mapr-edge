@@ -142,6 +142,7 @@ if [ -n "$MAPR_SUBNETS" ]; then
 fi
 
 #Confirm cluster services are ready
+echo "Checking status of cluster start up"
 cycles=0
 check_cldb=1
 until $(curl --output /dev/null -Iskf https://${MAPR_MCS}:${MAPR_MCS_PORT}); do
@@ -208,6 +209,8 @@ fi
 #create log directories for supervisor
 mkdir -p /var/log/supervisor
 chmod 777 /var/log/supervisor
+
+sleep 10
 
 if [ $# -eq 0 ]; then
 	exec /usr/sbin/sshd -D

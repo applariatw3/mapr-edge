@@ -57,6 +57,8 @@ rm -rf *.tgz
 mv /code/zeppelin-jdbc-0.7.3.jar ${ZEPPELIN_HOME}/interpreter/jdbc/
 cp $DRILL_HOME/jars/jdbc-driver/*.jar ${ZEPPELIN_HOME}/interpreter/jdbc/
 
+cp ${ZEPPELIN_HOME}/conf/zeppelin-site.xml.template ${ZEPPELIN_HOME}/conf/zeppelin-site.xml
+
 echo "Adding Zeppelin to start list"
 
 cat $SPRVD_CONF
