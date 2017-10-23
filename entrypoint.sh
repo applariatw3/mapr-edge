@@ -47,6 +47,13 @@ CLUSTER_INFO_DIR=/user/mapr/$MAPR_CLUSTER
 
 source $MAPR_START_ENV
 
+#Reset the MAPR hostid to be unique for each container, set hostname to running container hostname
+hostid=$(openssl rand -hex 8)
+echo "$hostid" > $MAPR_HOME/hostid
+conf_hostid=$(basename $MAPR_HOME/conf/hostid.*)
+echo "$hostid" > $MAPR_HOME/conf/$conf_hostid
+hostname -f | grep $POD_NAME | grep -q -v grep && echo $(hostname -f) > $MAPR_HOME/hostname
+
 #Configure default environment script
 echo "#!/bin/bash" > $MAPR_ENV_FILE
 echo "export JAVA_HOME=\"$JAVA_HOME\"" >> $MAPR_ENV_FILE
