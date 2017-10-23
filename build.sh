@@ -67,6 +67,8 @@ cat >> $SPRVD_CONF << EOC
 [program:zeppelin]
 command=${ZEPPELIN_HOME}/bin/zeppelin.sh
 autorestart=true
+stdout_logfile=/dev/stdout
+stdout_logfile_maxbytes=0
 EOC
 
 echo "Added Zeppelin to start list"

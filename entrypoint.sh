@@ -187,22 +187,16 @@ if [ -d ${MAPR_HOME}/hive ]; then
 	echo "export PATH=\"\$PATH:\$HIVE_HOME/bin\"" >> $MAPR_ENV_FILE
 fi
 
-#Start Services
-#Starting Fuse
-#if [ -n "$MAPR_MOUNT_PATH" -a -f "$MAPR_FUSE_FILE" ]; then
-#	if $(hadoop fs -test -d $MAPR_MOUNT_PATH); then
-#		echo "$MAPR_MOUNT_PATH directory exists in MAPR-FS"
-#	else
-#		echo "Creating $MAPR_MOUNT_PATH on MAPR-FS"
-#		hadoop fs -mkdir $MAPR_MOUNT_PATH
-#		hadoop fs -chmod 777 $MAPR_MOUNT_PATH
-#	fi
-#	echo "Starting Fuse Client with $MAPR_MOUNT_PATH"
-#	sed -i "s|^fuse.mount.point.*$|fuse.mount.point=$MAPR_MOUNT_PATH|g" \
-#		$MAPR_FUSE_FILE || echo "Could not set FUSE mount path"
-#	mkdir -p -m 755 "$MAPR_MOUNT_PATH"
-#	service mapr-posix-client-basic start
-#fi
+#Preparing zeppelin noteook directory
+if [ -n "$ZEPPELIN_NOTEBOOK_DIR" ]; then
+	if $(hadoop fs -test -d $ZEPPELIN_NOTEBOOK_DIR); then
+		echo "$ZEPPELIN_NOTEBOOK_DIR directory exists in MAPR-FS"
+	else
+		echo "Creating $ZEPPELIN_NOTEBOOK_DIR on MAPR-FS"
+		hadoop fs -mkdir $ZEPPELIN_NOTEBOOK_DIR
+		hadoop fs -chmod 777 $ZEPPELIN_NOTEBOOK_DIR
+	fi
+fi
 
 #create log directories for supervisor
 mkdir -p /var/log/supervisor
