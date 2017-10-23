@@ -65,7 +65,7 @@ EOC
 	echo "Applariat API response: $response"
 }
 
-[ NOTIFY_APL -eq 1 ] && notify_apl "Starting configuration of MAPR edge node: ${POD_NAME}"
+[ $NOTIFY_APL -eq 1 ] && notify_apl "Starting configuration of MAPR edge node: ${POD_NAME}"
 
 #export path
 export PATH=$JAVA_HOME/bin:$MAPR_HOME/bin:$PATH
@@ -206,7 +206,7 @@ if [ $check_cldb -eq 1 ]; then
 fi
 
 #configure mapr services
-[ NOTIFY_APL -eq 1 ] && notify_apl "Running configure.sh on MAPR edge node: ${POD_NAME}"
+[ $NOTIFY_APL -eq 1 ] && notify_apl "Running configure.sh on MAPR edge node: ${POD_NAME}"
 
 if [ -f "$MAPR_CLUSTER_CONF" ]; then
 	args=-R
@@ -253,7 +253,7 @@ chmod 777 /var/log/supervisor
 
 sleep 10
 
-[ NOTIFY_APL -eq 1 ] && notify_apl "Starting services on MAPR edge node: ${POD_NAME}"
+[ $NOTIFY_APL -eq 1 ] && notify_apl "Starting services on MAPR edge node: ${POD_NAME}"
 
 if [ $# -eq 0 ]; then
 	exec /usr/sbin/sshd -D
