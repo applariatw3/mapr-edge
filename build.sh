@@ -11,12 +11,12 @@ MAPR_START_ENV=${MAPR_CONTAINER_DIR}/start-env.sh
 
 #MAPR JDBC
 MAPRJDBC_HOME="/opt/mapr/lib/jdbc"
-MAPRJDBC_VERSION="1.5.3.1006"
+MAPRJDBC_VERSION="1.5.6.1012"
 MAPRJDBC_DL_URL="http://package.mapr.com/tools/MapR-JDBC/MapR_Drill/MapRDrill_jdbc_v${MAPRJDBC_VERSION}/DrillJDBC41.zip"
 
 #Drill
 DRILL_HOME="/opt/drill"
-DRILL_VERSION="1.10.0"
+DRILL_VERSION="1.11.0"
 DRILL_DL_URL="http://archive.apache.org/dist/drill/drill-${DRILL_VERSION}/apache-drill-${DRILL_VERSION}.tar.gz"
 
 #Zeppelin
@@ -28,17 +28,18 @@ ZEP_DL_URL="http://archive.apache.org/dist/zeppelin/zeppelin-${ZEP_VERSION}/zepp
 #The following mapr packages are installed by default
 # mapr-client mapr-posix-client-basic mapr-hbase mapr-asynchbase mapr-spark mapr-hive mapr-kafka mapr-librdkafka
 # Install additional client packages as needed, cannot install packages that require mapr-core
-cd /tmp
+#cd /tmp
+cd /code
 
 #Install MAPR JDBC
-#echo "Installing MAPR JDBC"
-#mkdir -p $MAPRJDBC_HOME
+echo "Installing MAPR JDBC"
+mkdir -p $MAPRJDBC_HOME
 #wget -q $MAPRJDBC_DL_URL
-#unzip DrillJDBC41.zip -d $MAPRJDBC_HOME
-#rm -f DrillJDBC41.zip
+unzip DrillJDBC41.zip -d $MAPRJDBC_HOME
+rm -f DrillJDBC41.zip
 
 #Install Drill
-#echo "Installing Drill"
+#echo "Installing Drill JDBC"
 mkdir -p $DRILL_HOME/jars/jdbc-driver
 mv /code/drill-jdbc-all-1.10.0.jar $DRILL_HOME/jars/jdbc-driver
 #curl -sS ${DRILL_DL_URL} | tar xvz -C ${DRILL_HOME}
@@ -55,6 +56,7 @@ rm -rf ${ZEPPELIN_HOME}/zeppelin-${ZEP_VERSION}-bin-all
 rm -rf *.tgz
 
 mv /code/zeppelin-jdbc-0.7.3.jar ${ZEPPELIN_HOME}/interpreter/jdbc/
+cp $MAPRJDBC_HOME/* ${ZEPPELIN_HOME}/interpreter/jdbc/
 cp $DRILL_HOME/jars/jdbc-driver/*.jar ${ZEPPELIN_HOME}/interpreter/jdbc/
 
 cp ${ZEPPELIN_HOME}/conf/zeppelin-site.xml.template ${ZEPPELIN_HOME}/conf/zeppelin-site.xml

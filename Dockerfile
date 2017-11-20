@@ -1,4 +1,4 @@
-FROM applariat/mapr-edge:5.2.2_3.0.1
+FROM applariat/mapr-edge:6.0.0_4.0.0
 #Starting from mapr edge image
 
 ARG artifact_root="."
